@@ -31,8 +31,8 @@ class TestQuaternionGroup(unittest.TestCase):
     def test_ba_plus_b(self):
         ba = self.grp.make((1, 0))
         b = self.grp.make((1,))
-        ca = self.grp.make((2, 0))
-        self.assertEqual(ba + b, ca)
+        a = self.grp.make((0, ))
+        self.assertEqual(ba + b, a)
 
     def test_commutator_subgroup(self):
         self.assertEqual(self.grp.commutator_subgroup, [self.grp.make(()), self.grp.make((2,))])
