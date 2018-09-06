@@ -92,6 +92,9 @@ def elements(group):
         >>> from dihedral_8 import DIHEDRAL_8
         >>> elements(DIHEDRAL_8)
         [(), (0,), (1,), (2,), (1, 0), (2, 0), (2, 1, 0), (2, 1)]
+        >>> from quaternion_8 import QUATERNION_8
+        >>> elements(QUATERNION_8)
+        [(), (0,), (1,), (2,), (1, 0), (2, 0), (2, 1, 0), (2, 1)]
     """
     s = set()
     elems = []
