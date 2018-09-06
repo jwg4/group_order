@@ -58,3 +58,9 @@ class TestQuaternionGroup(unittest.TestCase):
             self.grp.inner_automorphism_group,
             [self.grp.make(t) for t in [(), (0,), (1,), (1, 0)]]
         )
+
+    def test_frattini_subgroup(self):
+        self.assertEqual(
+            self.grp.frattini_subgroup,
+            [self.grp.make(()), self.grp.make((2,))]
+        )

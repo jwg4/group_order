@@ -104,3 +104,17 @@ class Group(object):
         for k in d:
             l = sorted(d[k])
             yield l[0]
+
+    @property
+    def squares(self):
+        return sorted(list(set( a + a for a in self.elements)))
+
+    @property
+    def frattini_subgroup(self):
+        return sorted(list(set(self._frattini_subgroup)))
+
+    @property
+    def _frattini_subgroup(self):
+        for a in self.commutator_subgroup:
+            for b in self.squares:
+                yield a + b
