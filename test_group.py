@@ -14,4 +14,4 @@ class TestDihedralGroup(unittest.TestCase):
         self.assertEqual(ba + b, ca)
 
     def test_commutator_subgroup(self):
-        self.assertEqual(self.grp.commutator_subgroup, [(), (2)])
+        self.assertEqual(self.grp.commutator_subgroup, [self.grp.make(()), self.grp.make((2,))])

@@ -18,10 +18,13 @@ def element_class(group):
             return "".join([ALPHA[i] for i in self.representation])
 
         def __repr__(self):
-            return self.__str__()
+            return "Element %s of Group %s" % (self.representation, repr(group))
 
-        def __eq__(self, other):
-            return self.representation == other.representation
+        def __hash__(self):
+            return hash(group) + hash(self.representation)
+
+        def __cmp__(self, other):
+            return cmp(self.representation, other.representation)
 
         def __add__(self, y):
             return group.add(self.representation, y.representation)
@@ -64,7 +67,7 @@ class Group(object):
         
     @property
     def commutator_subgroup(self):
-        return list(set(self._commutators))
+        return sorted(list(set(self._commutators)))
 
     @property
     def _commutators(self):
