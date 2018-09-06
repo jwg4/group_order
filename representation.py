@@ -4,6 +4,8 @@ def reduce_powers(element, powers, exponent=2):
         ((), True)
         >>> reduce_powers((), [[], [], []])
         ((), False)
+        >>> reduce_powers((2, 1, 0), [[], [], []])
+        ((2, 1, 0), False)
     """
     l = []
     current = None
@@ -27,6 +29,8 @@ def reduce_powers(element, powers, exponent=2):
                     l.append(current)
                 current = x
                 count = 1
+    for i in range(0, count):
+        l.append(current)
     return tuple(l[::-1]), changed
     
 
