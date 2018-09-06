@@ -75,12 +75,15 @@ def reduce(element, group):
         >>> from dihedral_8 import DIHEDRAL_8
         >>> reduce((2, 2), DIHEDRAL_8)
         ()
+        >>> reduce((0, 1), DIHEDRAL_8)
+        (2, 1, 0)
     """
     to_change = True
     e = element
     while to_change:
-        e, changed = reduce_powers(e, group['powers'])
-        to_change = changed
+        e, p_changed = reduce_powers(e, group['powers'])
+        e, c_changed = reduce_commutators(e, group['commutators'])
+        to_change = p_changed or c_changed
     return e
 
 
