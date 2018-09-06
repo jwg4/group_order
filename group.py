@@ -86,5 +86,21 @@ class Group(object):
     @property
     def _center(self):
         for i in self.elements:
-            if all(i + e == e + i for e in self.elements):
+            if all(i + x == x + i for x in self.elements):
                 yield i
+
+    @property
+    def inner_automorphism_group(self):
+        return sorted(list(self._inner_automorphism_group))
+
+    @property
+    def _inner_automorphism_group(self):
+        d = defaultdict(list)
+        for i in self.elements:
+            i_inv = -i
+            k = tuple(i_inv + x + i for x in self.elements)
+            d[k].append(i)
+
+        for k in d:
+            l = sorted(d[k])
+            yield l[0]
