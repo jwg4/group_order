@@ -1,7 +1,7 @@
-DIHEDRAL_8 = {
+QUATERNION_8 = {
     "n": 3,
     "powers": [
-        [], [], []
+        [2], [2], []
     ],
     "commutators": {
         (0, 1): [(2, 1)],

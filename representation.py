@@ -1,13 +1,16 @@
 def reduce_powers(element, powers, exponent=2):
     """
-        >>> from dihedral_8 import DIHEDRAL_8
-        >>> reduce_powers((2, 2), DIHEDRAL_8)
-        (), True
+        >>> reduce_powers((2, 2), [[], [], []])
+        ((), True)
+        >>> reduce_powers((), [[], [], []])
+        ((), False)
+        >>> reduce_powers((2, 1, 0), [[], [], []])
+        ((2, 1, 0), False)
     """
     l = []
     current = None
     count = 0
-    changed = True
+    changed = False
     for x in element[::-1]:
         if current is None:
             current = x
@@ -26,20 +29,72 @@ def reduce_powers(element, powers, exponent=2):
                     l.append(current)
                 current = x
                 count = 1
-    return l[::-1], changed
+    for i in range(0, count):
+        l.append(current)
+    return tuple(l[::-1]), changed
     
 
+def reduce_commutators(element, commutators):
+    """
+        >>> reduce_commutators((0, 1), {(0, 1): [(2, 1)], (0, 2): [], (1, 2): [] })
+        ((2, 1, 0), True)
+        >>> reduce_commutators((1, 0, 1), {(0, 1): [(2, 1)], (0, 2): [], (1, 2): [] })
+        ((2, 1, 1, 0), True)
+        >>> reduce_commutators((1, 2, 1, 0), {(0, 1): [(2, 1)], (0, 2): [], (1, 2): [] })
+        ((2, 1, 1, 0), True)
+    """
+    elem = list(element)
+    changed = False
+    for a in sorted(list(set(element))):
+        count = 0
+        n = []
+        for i in elem:
+            if i == a:
+                count = count + 1
+            else:
+                if count > 0:
+                    if a < i:
+                        for j in range(0, count-1):
+                            n.append(a)
+                        changed = True
+                        k = (a, i)
+                        for g, c in commutators[k]:
+                            for f in range(0, c):
+                                n.append(g)
+                        n.append(i)
+                        count = 1
+                    else:
+                        for j in range(0, count):
+                            n.append(a)
+                        n.append(i)
+                        count = 0
+                else:
+                    n.append(i)
+                    count = 0
+        for j in range(0, count):
+            n.append(a)
+        elem = n
+    return tuple(elem), changed
+
+                    
 def reduce(element, group):
     """
         >>> from dihedral_8 import DIHEDRAL_8
         >>> reduce((2, 2), DIHEDRAL_8)
         ()
+        >>> reduce((0, 1), DIHEDRAL_8)
+        (2, 1, 0)
+        >>> reduce((1, 0, 1), DIHEDRAL_8)
+        (2, 0)
+        >>> reduce((1, 2, 1, 0), DIHEDRAL_8)
+        (2, 0)
     """
     to_change = True
     e = element
     while to_change:
-        e, changed = reduce_powers(e, group['powers'])
-        to_change = changed
+        e, p_changed = reduce_powers(e, group['powers'])
+        e, c_changed = reduce_commutators(e, group['commutators'])
+        to_change = p_changed or c_changed
     return e
 
 
@@ -47,9 +102,13 @@ def elements(group):
     """
         >>> from dihedral_8 import DIHEDRAL_8
         >>> elements(DIHEDRAL_8)
-        [(), (0), (1), (2), (2, 1), (3, 1), (3, 2), (3, 2, 1)]
+        [(), (0,), (1,), (2,), (1, 0), (2, 0), (2, 1, 0), (2, 1)]
+        >>> from quaternion_8 import QUATERNION_8
+        >>> elements(QUATERNION_8)
+        [(), (0,), (1,), (2,), (1, 0), (2, 0), (2, 1, 0), (2, 1)]
     """
     s = set()
+    elems = []
     generators = range(0, group['n'])
     
     l = [()]
@@ -59,10 +118,9 @@ def elements(group):
             a = reduce(i, group)
             if a not in s:
                 s.add(a)
+                elems.append(a)
                 for g in generators:
-                    n.append(a + (g,))
+                    n.append((g,) + a)
         l = n
 
-    elems = list(s)
-    elems.sort()
     return elems
