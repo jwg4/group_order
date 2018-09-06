@@ -78,3 +78,13 @@ class Group(object):
                 if i != j:
                     j_inv = -j
                     yield i + j + i_inv + j_inv
+
+    @property
+    def center(self):
+        return sorted(list(self._center))
+
+    @property
+    def _center(self):
+        for i in self.elements:
+            if all(i + e == e + i for e in self.elements):
+                yield i

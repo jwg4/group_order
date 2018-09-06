@@ -22,6 +22,9 @@ class TestDihedralGroup(unittest.TestCase):
     def test_commutator_subgroup(self):
         self.assertEqual(self.grp.commutator_subgroup, [self.grp.make(()), self.grp.make((2,))])
 
+    def test_center(self):
+        self.assertEqual(self.grp.center, [self.grp.make(()), self.grp.make((2,))])
+
 
 class TestQuaternionGroup(unittest.TestCase):
     def setUp(self):
