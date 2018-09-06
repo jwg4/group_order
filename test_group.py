@@ -49,3 +49,12 @@ class TestQuaternionGroup(unittest.TestCase):
 
     def test_commutator_subgroup(self):
         self.assertEqual(self.grp.commutator_subgroup, [self.grp.make(()), self.grp.make((2,))])
+
+    def test_center(self):
+        self.assertEqual(self.grp.center, [self.grp.make(()), self.grp.make((2,))])
+
+    def test_inner_automorphism_group(self):
+        self.assertEqual(
+            self.grp.inner_automorphism_group,
+            [self.grp.make(t) for t in [(), (0,), (1,), (1, 0)]]
+        )
