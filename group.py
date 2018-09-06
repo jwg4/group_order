@@ -44,12 +44,11 @@ def element_class(group):
 
 class Group(object):
     _elements = None
-    _table = defaultdict(lambda : None)
 
     def __init__(self, spec):
         self.spec = spec
-
         self.cls = element_class(self)
+        self._table = defaultdict(lambda : None)
 
     def make(self, t):
         return self.cls(t)
