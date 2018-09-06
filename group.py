@@ -48,6 +48,9 @@ class Group(object):
 
         self.cls = element_class(self)
 
+    def make(self, t):
+        return self.cls(t)
+
     def add(self, x, y):
         if not self._table[(x, y)]:
             self._table[(x, y)] = reduce(x + y, self.spec)
