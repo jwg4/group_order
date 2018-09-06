@@ -15,6 +15,8 @@ def element_class(group):
             self.representation = t
 
         def __str__(self):
+            if not self.representation:
+                return "0"
             return "".join([ALPHA[i] for i in self.representation])
 
         def __repr__(self):

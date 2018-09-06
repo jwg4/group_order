@@ -9,6 +9,10 @@ class TestDihedralGroup(unittest.TestCase):
     def setUp(self):
         self.grp = Group(DIHEDRAL_8)
 
+    def test_identity(self):
+        e = self.grp.make(())
+        self.assertEqual(str(e), "0")
+
     def test_ba_plus_b(self):
         ba = self.grp.make((1, 0))
         b = self.grp.make((1,))
