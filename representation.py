@@ -38,6 +38,10 @@ def reduce_commutators(element, commutators):
     """
         >>> reduce_commutators((0, 1), {(0, 1): [(2, 1)], (0, 2): [], (1, 2): [] })
         ((2, 1, 0), True)
+        >>> reduce_commutators((1, 0, 1), {(0, 1): [(2, 1)], (0, 2): [], (1, 2): [] })
+        ((2, 1, 1, 0), True)
+        >>> reduce_commutators((1, 2, 1, 0), {(0, 1): [(2, 1)], (0, 2): [], (1, 2): [] })
+        ((2, 1, 1, 0), True)
     """
     elem = list(element)
     changed = False
@@ -50,6 +54,8 @@ def reduce_commutators(element, commutators):
             else:
                 if count > 0:
                     if a < i:
+                        for j in range(0, count-1):
+                            n.append(a)
                         changed = True
                         k = (a, i)
                         for g, c in commutators[k]:
@@ -58,7 +64,8 @@ def reduce_commutators(element, commutators):
                         n.append(i)
                         count = 1
                     else:
-                        n.append(a)
+                        for j in range(0, count):
+                            n.append(a)
                         n.append(i)
                         count = 0
                 else:
@@ -77,6 +84,10 @@ def reduce(element, group):
         ()
         >>> reduce((0, 1), DIHEDRAL_8)
         (2, 1, 0)
+        >>> reduce((1, 0, 1), DIHEDRAL_8)
+        (2, 0)
+        >>> reduce((1, 2, 1, 0), DIHEDRAL_8)
+        (2, 0)
     """
     to_change = True
     e = element
