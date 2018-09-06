@@ -1,0 +1,1 @@
+ - there are 56 abelian groups. This is the ways of splitting 2^11 into factors.
