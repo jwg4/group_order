@@ -1,8 +1,7 @@
 def reduce_powers(element, powers, exponent=2):
     """
-        >>> from dihedral_8 import DIHEDRAL_8
-        >>> reduce_powers((2, 2), DIHEDRAL_8)
-        (), True
+        >>> reduce_powers((2, 2), [[], [], []])
+        ((), True)
     """
     l = []
     current = None
@@ -26,7 +25,7 @@ def reduce_powers(element, powers, exponent=2):
                     l.append(current)
                 current = x
                 count = 1
-    return l[::-1], changed
+    return tuple(l[::-1]), changed
     
 
 def reduce(element, group):
