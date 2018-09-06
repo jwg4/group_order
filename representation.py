@@ -91,9 +91,10 @@ def elements(group):
     """
         >>> from dihedral_8 import DIHEDRAL_8
         >>> elements(DIHEDRAL_8)
-        [(), (0), (1), (2), (2, 1), (3, 1), (3, 2), (3, 2, 1)]
+        [(), (0,), (1,), (2,), (1, 0), (2, 0), (2, 1, 0), (2, 1)]
     """
     s = set()
+    elems = []
     generators = range(0, group['n'])
     
     l = [()]
@@ -103,10 +104,9 @@ def elements(group):
             a = reduce(i, group)
             if a not in s:
                 s.add(a)
+                elems.append(a)
                 for g in generators:
-                    n.append(a + (g,))
+                    n.append((g,) + a)
         l = n
 
-    elems = list(s)
-    elems.sort()
     return elems
