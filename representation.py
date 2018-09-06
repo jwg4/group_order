@@ -30,6 +30,42 @@ def reduce_powers(element, powers, exponent=2):
     return tuple(l[::-1]), changed
     
 
+def reduce_commutators(element, commutators):
+    """
+        >>> reduce_commutators((0, 1), {(0, 1): [(2, 1)], (0, 2): [], (1, 2): [] })
+        ((2, 1, 0), True)
+    """
+    elem = list(element)
+    changed = False
+    for a in sorted(list(set(element))):
+        count = 0
+        n = []
+        for i in elem:
+            if i == a:
+                count = count + 1
+            else:
+                if count > 0:
+                    if a < i:
+                        changed = True
+                        k = (a, i)
+                        for g, c in commutators[k]:
+                            for f in range(0, c):
+                                n.append(g)
+                        n.append(i)
+                        count = 1
+                    else:
+                        n.append(a)
+                        n.append(i)
+                        count = 0
+                else:
+                    n.append(i)
+                    count = 0
+        for j in range(0, count):
+            n.append(a)
+        elem = n
+    return tuple(elem), changed
+
+                    
 def reduce(element, group):
     """
         >>> from dihedral_8 import DIHEDRAL_8
