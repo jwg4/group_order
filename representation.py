@@ -2,11 +2,13 @@ def reduce_powers(element, powers, exponent=2):
     """
         >>> reduce_powers((2, 2), [[], [], []])
         ((), True)
+        >>> reduce_powers((), [[], [], []])
+        ((), False)
     """
     l = []
     current = None
     count = 0
-    changed = True
+    changed = False
     for x in element[::-1]:
         if current is None:
             current = x
